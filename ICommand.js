@@ -1,6 +1,8 @@
 let Directory = require("./Directory.js");
 let File = require("./File.js");
 let Util = require("./Util.js");
+let main = process.argv[1];
+const PWD = main.substring(0,main.indexOf("index.js"));
 
 class ICommand{
 	constructor(){
@@ -18,16 +20,23 @@ class ICommand{
 		}
 	}
 
-	Parse(args,dir,template,ext){
+	Parse(args,dir,template,ext,projectName){
 		args = args[0];
 
 		if(!Directory.Exists(__dirname+"/"+dir)) Directory.Create(__dirname+"/"+dir);
 
-		File.Read(__dirname+"/templates/"+template+".txt",(err,content)=>{
+		File.Read(PWD+"/templates/"+template+".txt",(err,content)=>{
 			if(err){console.log(err);return;}
 			let upper = args.upperFirst();
-			content = content.replace(/Template/g,upper);
-			content = content.replace(/template/g,args);
+
+			if(projectName){
+				content = content.replace(/Template/g,projectName.upperFirst());
+				content = content.replace(/template/g,projectName);
+			}else{
+				content = content.replace(/Template/g,upper);
+				content = content.replace(/template/g,args);
+			}
+
 			if(upper.includes("Controller")) upper += "Controller";
 			upper += ext;
 

@@ -9,8 +9,8 @@ app.use(express.static(__dirname+"/client/dist"));
 app.use(express.json());
 app.use(session({secret:"hideme"}));
 
-require("./server/config/mongoose.js");
-require("./server/config/routes.js")(app);
+require("./server/config/Mongoose.js");
+require("./server/config/Routes.js")(app);
 
 app.listen(port,()=>{
 	console.log("Listening on: "+port);

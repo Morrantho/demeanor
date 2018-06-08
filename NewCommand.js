@@ -16,8 +16,9 @@ class NewCommand extends ICommand{
 
 	Execute(args){
 		super.Execute(args);
-		this.Parse(["routes"],"config","RoutesTemplate",".js");
-		this.Parse(["mongoose"],"config","MongooseTemplate",".js");
+		this.Parse(["routes"],"config","RoutesTemplate",".js",args[0]);
+		this.Parse(["mongoose"],"config","MongooseTemplate",".js",args[0]);
+		this.Parse(["server"],"","ServerTemplate",".js");
 	}
 }
 CommandManager.Register("new",NewCommand);
