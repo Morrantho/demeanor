@@ -1,0 +1,71 @@
+let Template = require("mongoose").model("Template");
+
+class TemplateController{
+	all(req,res){
+		Template.find({},(err,data)=>{
+			if(data){
+				return res.status(200).json(data);
+			}else{
+				return res.status(404).json({errors:"Failed to retrieve templates!"});
+			}
+		})
+	}
+
+	findById(req,res){
+		Template.findOne({_id:req.params.id},(err,data)=>{
+			if(data){
+				return res.status(200).json(data);
+			}else{
+				return res.status(404).json({errors:"Failed to retrieve template!"});
+			}
+		})
+	}
+
+	create(req,res){
+		let template = new Template(req.body);
+
+		template.save((err)=>{
+			if(err){
+				return res.status(403).json({errors:template.errors});
+			}else{
+				return res.status(200).json(template);
+			}
+		});
+	}
+
+	update(req,res){
+		Template.findOne({_id:req.params.id},(err,template)=>{
+			if(err){
+				return res.json({errors:err});
+			}else{
+				// template.title = req.body.title;
+				// template.description = req.body.description;
+
+				template.save(err=>{
+					if(err){
+						return res.status(403).json({errors:err});
+					}else{
+						return res.status(200).json(template);
+					}
+				});
+			}
+		});
+	}
+
+	destroy(req,res){
+		Template.findOne({_id:req.params.id},(err,template)=>{
+			if(template){
+				Template.remove({_id:req.params.id},(e)=>{
+					if(e){
+						return res.status(404).json({errors:"Failed to remove template."});
+					}else{
+						return res.status(200).json(template);
+					}
+				});
+			}else{
+				return res.status(404).json({errors:err});
+			}
+		});
+	}
+}
+module.exports = new TemplateController();

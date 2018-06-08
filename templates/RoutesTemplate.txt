@@ -1,0 +1,19 @@
+let TemplateController = require("../controllers/TemplateController.js");
+let path = require("path");
+
+module.exports =(app)=>{
+// ********************************************************
+// Base Controller
+// ********************************************************
+	app.get("/api/templates",TemplateController.all);
+	app.post("/api/templates",TemplateController.create);
+	app.get("/api/templates/:id",TemplateController.findById);
+	app.put("/api/templates/:id",TemplateController.update);
+	app.delete("/api/templates/:id",TemplateController.destroy);
+// ********************************************************
+// Angular
+// ********************************************************
+	app.all("*", (req,res,next) => {
+		res.sendFile(path.resolve("./client/dist/index.html"))
+	});
+}
