@@ -1,6 +1,10 @@
 let Template = require("mongoose").model("Template");
 
 class TemplateController{
+	root(req,res){
+		return res.render("Template",{});
+	}
+
 	all(req,res){
 		Template.find({},(err,data)=>{
 			if(data){

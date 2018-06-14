@@ -1,10 +1,11 @@
-let TemplateController = require("../controllers/TemplateController.js");
+let TemplateController = require("../controllers/Template.js");
 let path = require("path");
 
 module.exports =(app)=>{
 // ********************************************************
 // Base Controller
 // ********************************************************
+	app.get("/template",TemplateController.root);
 	app.get("/api/templates",TemplateController.all);
 	app.post("/api/templates",TemplateController.create);
 	app.get("/api/templates/:id",TemplateController.findById);

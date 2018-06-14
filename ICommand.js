@@ -23,7 +23,10 @@ class ICommand{
 	Parse(args,dir,template,ext,projectName){
 		args = args[0];
 
-		if(!Directory.Exists(__dirname+"/"+dir)) Directory.Create(__dirname+"/"+dir);
+		if(!Directory.Exists(process.cwd()+"/"+dir)){
+			Directory.Create(process.cwd()+"/"+dir);
+			console.log("Created Directory:",process.cwd()+"/"+dir);
+		}
 
 		File.Read(PWD+"/templates/"+template+".txt",(err,content)=>{
 			if(err){console.log(err);return;}
@@ -36,13 +39,12 @@ class ICommand{
 				content = content.replace(/Template/g,upper);
 				content = content.replace(/template/g,args);
 			}
-
-			if(upper.includes("Controller")) upper += "Controller";
+			if(upper.includes("Package")) upper = "package";
 			upper += ext;
 
-			File.Write(__dirname+"/"+dir+"/"+upper,content,(err)=>{
+			File.Write(process.cwd()+"/"+dir+"/"+upper,content,(err)=>{
 				if(err){console.log(err);return;}
-				console.log("Created: ",args);
+				console.log("Created File: ",process.cwd()+"/"+dir+"/"+upper);
 			});
 		});
 	}
